@@ -1,0 +1,39 @@
+
+local chars = script:GetChildren()
+for i = 1, #chars​ do
+ chars[i].Name = "StarterCharacter"
+end
+local function SetRandomStarterCharacter()
+ local existing = game.StarterPlayer:FindFirstChild("StarterCharacter")
+ if existing then
+  existing:Destroy()
+ end
+
+ local randomChar = chars[math.random(1, #chars​)]:Clone()
+ randomChar.Parent = game.StarterPlayer
+end
+
+game.Players.PlayerAdded:Connect(function(plr)
+ local respawning = false
+
+ local function handleRespawn()
+  if respawning then return end
+  respawning = true
+
+  SetRandomStarterCharacter()
+  plr:LoadCharacter()
+
+  task.wait(1)
+
+  local starterChar = game.StarterPlayer:FindFirstChild("StarterCharacter")
+  if starterChar then
+   starterChar:Destroy()
+  end
+
+  respawning = false
+ end
+
+ plr.CharacterRemoving:Connect(handleRespawn)
+
+ handleRespawn()
+end)
