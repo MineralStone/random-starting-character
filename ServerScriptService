@@ -1,3 +1,4 @@
+print("Random.Chara.Start")
 
 local chars = script:GetChildren()
 for i = 1, #chars​ do
